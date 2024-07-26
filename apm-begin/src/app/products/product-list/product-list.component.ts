@@ -4,7 +4,7 @@ import { NgIf, NgFor, NgClass, AsyncPipe } from '@angular/common';
 import { Product } from '../product';
 import { ProductDetailComponent } from '../product-detail/product-detail.component';
 import { ProductService } from '../product.service';
-import { catchError, EMPTY } from 'rxjs';
+import { catchError, EMPTY, tap } from 'rxjs';
 
 @Component({
     selector: 'pm-product-list',
@@ -29,9 +29,11 @@ export class ProductListComponent {
     );
 
   // Selected product id to highlight the entry
-  selectedProductId: number = 0;
+  readonly selectedProductId$ = this.productService.productSelected$.pipe(
+    tap(x => console.log("get selectedProductId: ", x))
+  );
 
   onSelected(productId: number): void {
-    this.selectedProductId = productId;
+    this.productService.productSelected(productId);
   }
 }
