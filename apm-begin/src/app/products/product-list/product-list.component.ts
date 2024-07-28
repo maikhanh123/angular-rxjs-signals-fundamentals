@@ -7,10 +7,10 @@ import { ProductService } from '../product.service';
 import { catchError, EMPTY, tap } from 'rxjs';
 
 @Component({
-    selector: 'pm-product-list',
-    templateUrl: './product-list.component.html',
-    standalone: true,
-  imports: [AsyncPipe, NgIf, NgFor, NgClass, ProductDetailComponent]
+  selector: 'pm-product-list',
+  templateUrl: './product-list.component.html',
+  standalone: true,
+  imports: [AsyncPipe, NgIf, NgFor, NgClass, ProductDetailComponent],
 })
 export class ProductListComponent {
   // Just enough here for the template to compile
@@ -20,17 +20,18 @@ export class ProductListComponent {
   private productService = inject(ProductService);
 
   // Products
-  readonly products$ = this.productService.products$
-    .pipe(
-      catchError(err => {
-        this.errorMessage = err;
-        return EMPTY;
-      })
-    );
+  // readonly products$ = this.productService.products$
+  //   .pipe(
+  //     catchError(err => {
+  //       this.errorMessage = err;
+  //       return EMPTY;
+  //     })
+  //   );
+  products = this.productService.products;
 
   // Selected product id to highlight the entry
   readonly selectedProductId$ = this.productService.productSelected$.pipe(
-    tap(x => console.log("get selectedProductId: ", x))
+    tap((x) => console.log('get selectedProductId: ', x))
   );
 
   onSelected(productId: number): void {
