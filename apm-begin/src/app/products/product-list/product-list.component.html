@@ -11,7 +11,7 @@
             type="button"
             class="list-group-item"
             *ngFor="let product of products"
-            [ngClass]="{ active: product.id === (selectedProductId$ | async) }"
+            [ngClass]="{ active: product.id === selectedProductId() }"
             (click)="onSelected(product.id)"
           >
             {{ product.productName }}
@@ -24,7 +24,13 @@
     </div>
   </div>
 
-  <div class="col-md-8">
-    <pm-product-detail />
+  <div class="col-md-8" *ngIf="isLoading(); else noItem" >
+    Loading ...
   </div>
+
+  <ng-template  #noItem >
+    <div class="col-md-8" >
+      <pm-product-detail />
+    </div>
+  </ng-template>
 </div>
